@@ -1,0 +1,11 @@
+body {
+	color: #DAD6D6;
+  background: #191F20;
+  padding: 10px 10px auto;
+  margin: 10px 10px auto;
+}
+
+#sudoku-board {
+  padding: 10px auto;
+  margin: 10px auto;
+}
