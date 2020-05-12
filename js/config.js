@@ -16,7 +16,7 @@ const CONFIG = {
 
 	SMALL: {
 		PATH: 'testcase/9x9/',
-		FILES: ['10', '20', '30', '40', '50', '60', '64', '64_2'],
+		FILES: ['10'],
 		B_SIZE: 9,
 	},
 
