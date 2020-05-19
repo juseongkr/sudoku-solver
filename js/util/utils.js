@@ -57,7 +57,7 @@ const createMap = size => {
 				}
 			}
 		} else {
-			const b = jsboard.piece({ text: number, ...CONFIG.STYLE });
+			const b = jsboard.piece({ text: number, ...CONFIG.STYLE, color: 'blue' });
 			map.cell(this).place(b.clone());
 			if (cur_data) {
 				const pos = getPosRev(map.cell(this).where(), size);
@@ -139,6 +139,7 @@ const getRandomData = () => {
 	cur_data = size === CONFIG.SMALL.B_SIZE ? getSmallData() : getLargeData();
 	number = size === CONFIG.SMALL.B_SIZE ? 1 : 'A';
 	map = createMap(size);
+	sudoku = null;
 	showData();
 }
 
@@ -184,3 +185,35 @@ const shuffle = arr => {
 	}
 	return arr;
 }
+
+const validCheck = () => {
+	let check = Array(size).fill(0);
+	let board = [];
+	if (sudoku) {
+		board = algo === 0 ? sudoku.board : sudoku.answer_board;
+	} else {
+		const data = cur_data.split('').map(x => Number(x));
+		while (data.length) {
+			board.push(data.splice(0, size));
+		}
+	}
+	
+	board.forEach((row, x) => {
+		row.forEach((elem, y) => {
+			check[square(x, y, size)] += elem;
+		});
+	});
+	
+	board.forEach(row => {
+		check.push(row.reduce((acc, val) => acc + val));
+	});
+	board[0].map((col, i) => board.map(row => row[i]));
+	board.forEach(row => {
+		check.push(row.reduce((acc, val) => acc + val));
+	});
+
+	const valid = check.every(elem => elem === parseInt((size * (size+1)) / 2));
+	alert(valid ? "Correct!" : "Incorrect");
+
+	return valid;
+} 
