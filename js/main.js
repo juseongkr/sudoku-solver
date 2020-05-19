@@ -1,17 +1,20 @@
-(() => {
-	CONFIG.SMALL.FILES.forEach(file => {
-		fetch(CONFIG.SMALL.PATH + file)
-		.then(res => res.text())
-		.then(text => data_small[file] = text.split('\n'))
-		.catch(err => console.error(err));
-	});
+let map = null;
+let loaded = [];
 
-	CONFIG.LARGE.FILES.forEach(file => {
-		fetch(CONFIG.LARGE.PATH + file)
-		.then(res => res.text())
-		.then(text => data_large[file] = text.split('\n'))
-		.catch(err => console.error(err));
-	});
-})();
+CONFIG.SMALL.FILES.forEach(file => {
+	loaded.push(fetch(CONFIG.SMALL.PATH + file)
+	.then(res => res.text())
+	.then(text => data_small[file] = text.split('\n'))
+	.catch(err => console.error(err)));
+});
 
-let map = createMap(CONFIG.SMALL.B_SIZE);
+CONFIG.LARGE.FILES.forEach(file => {
+	loaded.push(fetch(CONFIG.LARGE.PATH + file)
+	.then(res => res.text())
+	.then(text => data_large[file] = text.split('\n'))
+	.catch(err => console.error(err)));
+});
+
+Promise.all(loaded)
+.then(() => map = createMap(CONFIG.SMALL.B_SIZE))
+.catch(err => console.error(err));
