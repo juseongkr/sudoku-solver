@@ -80,7 +80,7 @@ class DancingLinks {
 				jt = jt.right;
 			}
 
-			if (this.search(head, k+1)) {
+			if (this.search(head, k+1, time)) {
 				return true;
 			} else {
 				this.solution.pop();
