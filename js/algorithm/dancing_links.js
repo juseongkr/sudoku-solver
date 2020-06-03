@@ -20,6 +20,7 @@ class DancingLinks {
 		this.solution = [];
 		this.solution_log = [];
 		this.random = random;
+		this.visual = [];
 
 		this.data.forEach((elem, pos) => {
 			const [x, y] = getPos(pos, this.size);
@@ -80,18 +81,19 @@ class DancingLinks {
 				jt = jt.right;
 			}
 
-			if (this.search(head, k+1)) {
+			if (this.search(head, k+1, time)) {
 				return true;
-			} else {
-				this.solution.pop();
-				this.solution_log.push([node, false]);
-
-				let kt = it.left;
-				while (kt != it) {
-					this.uncover(kt.column);
-					kt = kt.left;
-				}
 			}
+			
+			this.solution.pop();
+			this.solution_log.push([node, false]);
+
+			jt = it.left;
+			while (jt != it) {
+				this.uncover(jt.column);
+				jt = jt.left;
+			}
+			
 			it = it.down;
 		}
 		this.uncover(ptr);
@@ -222,7 +224,7 @@ class DancingLinks {
 		const speed = CONFIG.SPEED / this.solution_log.length;
 
 		this.solution_log.forEach((elem, pos) => {
-			setTimeout(() => {
+			this.visual.push(setTimeout(() => {
 				const [x, y, val] = this.position[elem[0]];
 				const ok = elem[1];
 				if (ok && !this.board[x][y]) {
@@ -235,13 +237,17 @@ class DancingLinks {
 				} else if (!ok) {
 					map.cell([x, y]).rid();
 				}
-			}, speed * pos);
+			}, speed * pos));
 		});
+	}
+
+	stopVisualize() {
+		this.visual.forEach(v => clearTimeout(v));
 	}
 
 	benchmark() {
 		const before = performance.now();
-		this.solve();
+		this.search(head, 0, before);
 		const after = performance.now();
 
 		return (after - before);

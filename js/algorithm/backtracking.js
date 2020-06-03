@@ -8,6 +8,7 @@ class Backtracking {
 		this.solution = [];
 		this.solution_log = [];
 		this.random = random;
+		this.visual = [];
 	
 		this.data.forEach((elem, pos) => {
 			const [x, y] = getPos(pos, this.size);
@@ -71,7 +72,7 @@ class Backtracking {
 		const speed = CONFIG.SPEED / this.solution_log.length;
 
 		this.solution_log.forEach((pos, i) => {
-			setTimeout(() => {
+			this.visual.push(setTimeout(() => {
 				if (pos[2] > 0) {
 					let b = null;
 					if (this.size === CONFIG.LARGE.B_SIZE) {
@@ -83,8 +84,12 @@ class Backtracking {
 				} else {
 					map.cell([pos[0], pos[1]]).rid();
 				}
-			}, speed * i);
+			}, speed * i));
 		});
+	}
+
+	stopVisualize() {
+		this.visual.forEach(v => clearTimeout(v));
 	}
 
 	benchmark() {

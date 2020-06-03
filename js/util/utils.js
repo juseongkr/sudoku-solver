@@ -139,7 +139,9 @@ const getRandomData = () => {
 	cur_data = size === CONFIG.SMALL.B_SIZE ? getSmallData() : getLargeData();
 	number = size === CONFIG.SMALL.B_SIZE ? 1 : 'A';
 	map = createMap(size);
-	sudoku = null;
+	if (sudoku && sudoku.stopVisualize()) {
+		sudoku = null;
+	}
 	showData();
 }
 
@@ -216,4 +218,4 @@ const validCheck = () => {
 	alert(valid ? "Correct!" : "Incorrect");
 
 	return valid;
-} 
+}
