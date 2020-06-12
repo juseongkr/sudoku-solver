@@ -69,22 +69,23 @@ class Backtracking {
 		const after = performance.now();
 		console.log(after - before);
 
-		const speed = CONFIG.SPEED / this.solution_log.length;
+		let progress = document.getElementById('progress');
 
-		this.solution_log.forEach((pos, i) => {
+		this.solution_log.forEach((elem, pos) => {
 			this.visual.push(setTimeout(() => {
-				if (pos[2] > 0) {
+				if (elem[2] > 0) {
 					let b = null;
 					if (this.size === CONFIG.LARGE.B_SIZE) {
-						b = jsboard.piece({ text: String.fromCharCode(pos[2]+64), background: CONFIG.COLORS.RED, ...CONFIG.STYLE });
+						b = jsboard.piece({ text: String.fromCharCode(elem[2]+64), background: CONFIG.COLORS.RED, ...CONFIG.STYLE });
 					} else {
-						b = jsboard.piece({ text: pos[2], background: CONFIG.COLORS.RED, ...CONFIG.STYLE });
+						b = jsboard.piece({ text: elem[2], background: CONFIG.COLORS.RED, ...CONFIG.STYLE });
 					}
-					map.cell([pos[0], pos[1]]).place(b.clone());
+					map.cell([elem[0], elem[1]]).place(b.clone());
 				} else {
-					map.cell([pos[0], pos[1]]).rid();
+					map.cell([elem[0], elem[1]]).rid();
 				}
-			}, speed * i));
+				progress.textContent = ((pos+1) / this.solution_log.length * 100).toFixed(1) + ' %';
+			}, CONFIG.SPEED * pos));
 		});
 	}
 

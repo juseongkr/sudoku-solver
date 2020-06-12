@@ -142,6 +142,7 @@ const getRandomData = () => {
 	if (sudoku && sudoku.stopVisualize()) {
 		sudoku = null;
 	}
+	document.getElementById('progress').textContent = "0 %";
 	showData();
 }
 

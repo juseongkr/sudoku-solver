@@ -220,8 +220,8 @@ class DancingLinks {
 			const [x, y, z] = this.position[elem];
 			this.answer_board[x][y] = z;
 		});
-
-		const speed = CONFIG.SPEED / this.solution_log.length;
+		
+		let progress = document.getElementById('progress');
 
 		this.solution_log.forEach((elem, pos) => {
 			this.visual.push(setTimeout(() => {
@@ -237,7 +237,8 @@ class DancingLinks {
 				} else if (!ok) {
 					map.cell([x, y]).rid();
 				}
-			}, speed * pos));
+				progress.textContent = ((pos+1) / this.solution_log.length * 100).toFixed(1) + ' %';
+			}, CONFIG.SPEED * pos));
 		});
 	}
 

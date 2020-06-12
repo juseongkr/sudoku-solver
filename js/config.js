@@ -26,7 +26,7 @@ const CONFIG = {
 		B_SIZE: 16,
 	},
 
-	SPEED: 5000,
+	SPEED: 20,
 	BACKTRACKING: 0,
 	DANCINGLINKS: 1,
 };
